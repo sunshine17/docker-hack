@@ -2,9 +2,6 @@ version: '3'
 # https://docs.docker.com/compose/compose-file/
 # support Docker version 17.05.0-ce
 services:
-
-#################################### crucible ######################################################
-
 ##############################
 # crucible_mysql
 ##############################
@@ -14,7 +11,7 @@ services:
     ports:
      - "6033:3306"
     volumes:
-      - /Users/lion/my_project/_docker/github_idoall/ubuntu16.04-jira-crucible/4.6.1/my.ini:/etc/mysql/my.cnf
+      - ./my.ini:/etc/mysql/my.cnf
     networks:
       - mshk-crucible
     environment:
@@ -49,7 +46,7 @@ services:
       restart_policy:
         condition: on-failure
 
-# 统一网络设置
+# define network to be used for mysql and crucible
 networks:
   mshk-crucible:
     driver: overlay
