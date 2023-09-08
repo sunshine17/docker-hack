@@ -34,7 +34,11 @@ RUN cd /home/work/_src \
 # -----------------------------------------------------------------------------
 # 安装 mysql 驱动 
 # -----------------------------------------------------------------------------
-RUN curl -Ls https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.47.tar.gz | tar -xz --directory /home/work/_src/ --strip-components=1 --no-same-owner \
+RUN curl -Ls https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.47.tar.gz \
+  | tar -xz \
+        --directory /home/work/_src/ \
+        --strip-components=1 \
+        --no-same-owner \
     && cp -r /home/work/_src/mysql-connector-java-5.1.47-bin.jar /home/work/_app/_jira_crucible/lib/
 
 

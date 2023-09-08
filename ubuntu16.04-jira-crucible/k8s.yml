@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: crucible
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: crucible
+  namespace: crucible
+spec:
+  replicas: 3  # Adjust the number of replicas as needed for scalability
+  serviceName: crucible-headless
+  selector:
+    matchLabels:
+      app: crucible
+  template:
+    metadata:
+      labels:
+        app: crucible
+    spec:
+      containers:
+        - name: crucible
+          image: atlassian/crucible:latest
+          ports:
+            - containerPort: 8060
+          env:
+            - name: FISHEYE_INST
+              value: /var/atlassian/application-data/crucible
+          volumeMounts:
+            - name: crucible-home
+              mountPath: /var/atlassian/application-data/crucible
+  volumeClaimTemplates:
+    - metadata:
+        name: crucible-home
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi  # Adjust the storage size as needed
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: crucible
+  namespace: crucible
+spec:
+  selector:
+    app: crucible
+  ports:
+    - protocol: TCP
+      port: 8060
+      targetPort: 8060
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: crucible-headless
+  namespace: crucible
+spec:
+  selector:
+    app: crucible
+  ports:
+    - protocol: TCP
+      port: 8060
+      targetPort: 8060
+  clusterIP: None
+
