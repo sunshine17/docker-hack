@@ -1,0 +1,3 @@
+---------------------------适合于fisheye2以上版本
+保证fisheye从未启动，然后运行crucible_keygen.bat，破解 atlassian-extras-2.3.1-SNAPSHOT.JAR
+下一步启动fisheye，然后很简单了。
